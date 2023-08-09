@@ -8,18 +8,19 @@ extrato = ""
 
 # func deposito - v.01.
 def deposito(valor_dep):
-    global extrato,saldo
-
+    global extrato, saldo
     if valor_dep <= 0:
         print("Valor inválido. Tente novamente!\n")
     else:
         extrato += f"00/07/23: R$ +{valor_dep:.2f}\n"
         saldo += valor_dep
+        print("Depósito realizado com sucesso!\n")
+        print(saldo)
     return saldo
 
+# func saque - v.01.
 def saque(numero_saque):
     global extrato, saldo
-
     if numero_saque > 2:
         print(f"\nLimite de operações excedidas para este tipo de conta!")
         print(f"Quantidades de saques disponíveis para essa conta: {LIMITE_SAQUES} (três).")
@@ -37,7 +38,12 @@ def saque(numero_saque):
         numero_saque += 1
         extrato += f"00/07/23: R$ -{valor_saq:.2f}\n"
         print(f"Operação realizada com sucesso!\n")
-    return saldo
+    return numero_saque
+
+#fun extrato
+def extrato():
+    return
+
 
 
 print("Bem-vindo ao BTG Pactual!\n")
@@ -49,9 +55,8 @@ while True:
     if opcao == "d":
         
         valor_dep = int(input("Informe o valor que deseja depositar R$: "))
-        func_dep = deposito(valor_dep)
-        print("Depósito realizado com sucesso!\n")
-        print(func_dep)
+        deposito(valor_dep)
+        
     elif opcao == "s":
         valor_saq = int(input("Informe o valor que deseja sacar R$: "))
         saque(valor_saq)
