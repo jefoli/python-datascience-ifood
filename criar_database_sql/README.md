@@ -1,90 +1,40 @@
-# 02º Desafio - Otimizando o sistema bancário com Funções Python
+# 03º Desafio - Replicar a modelagem do projeto lógico de banco de dados para o cenário de e-commerce.
 
 **Fase do projeto:** ✅ *Iniciado* | 🔄 *Em desenvolvimento* | 🔜 *concluído*
 
-
 ## Objetivo Geral
 
-- Refatoração do primeiro desafio utilizando funções.
-- Exercitar o que foi lecionado durante o curso.
-- Separar as funções existentes de saque, depósito e extrato em funções.
-- Criar duas novas funções:
-    - cadastrar usuário (cliente).
-    - Cadastrar conta bancária.
-    
+Replique a modelagem do projeto lógico de banco de dados para o cenário de e-commerce. Fique atento as definições de chave primária e estrangeira, assim como as constraints presentes no cenário modelado. Perceba que dentro desta modelagem haverá relacionamentos presentes no modelo EER. Sendo assim, consulte como proceder para estes casos. Além disso, aplique o mapeamento de modelos aos refinamentos propostos no módulo de modelagem conceitual.
+
+Assim como demonstrado durante o desafio, realize a criação do Script SQL para criação do esquema do banco de dados. Posteriormente, realize a persistência de dados para realização de testes. Especifique ainda queries mais complexas dos que apresentadas durante a explicação do desafio. Sendo assim, crie queries SQL com as cláusulas abaixo:
+
+- Recuperações simples com SELECT Statement
+- Filtros com WHERE Statement
+- Crie expressões para gerar atributos derivados
+- Defina ordenações dos dados com ORDER BY
+- Condições de filtros aos grupos – HAVING Statement
+- Crie junções entre tabelas para fornecer uma perspectiva mais complexa dos dados
+
+### Diretrizes
+
+- ***Não há um mínimo de queries a serem realizadas***;
+- ***Os tópicos supracitados devem estar presentes nas queries***;
+- ***Elabore perguntas que podem ser respondidas pelas consultas***;
+- ***As cláusulas podem estar presentes em mais de uma query***;
 
 ## Desafio
 
-- Precisamos deixar nosso código mais modularizado.
-- ***Será necessário criar funções para as operações existentes:***
-    - sacar.
-    - depositar.
-    - visualizar extrato.
-- ***Criar duas novas funções:***
-    - Usuário (cliente do banco).
-    - Criar conta corrente (vincular com o usuário).
+[Relembrando] Aplique o mapeamento para o  cenário:
 
-## Separação em funções
+“Refine o modelo apresentado acrescentando os seguintes pontos”
 
-- Deverá criar funções para todas as operações do sistema.
-- Cada função deverá ter uma regra na passagem de argumentos (por posição e argumentos nomeados).
-- O retorno e a forma como serão chamadas poderá ser definida a critério do desenvolvedor.
+- Cliente PJ e PF – Uma conta pode ser PJ ou PF, mas não pode ter as duas informações;
+- Pagamento – Pode ter cadastrado mais de uma forma de pagamento;
+- Entrega – Possui status e código de rastreio;
 
-### Função Saque
+**Algumas das perguntas que podes fazer para embasar as queries SQL:**
 
-- A função saque deverá recevber os argumentos apenas por nome (***keyword only***).
-- **Sugestão de argumentos**: *saldo (saldo=saldo), valor(valor=valor), extrato, limite, numero_saques, limite_saques.*
-- Sugestão de retorno: **saldo e extrato.**
-
-### Função Depósito
-
-- A função depósito deve receber os argumentos apenas por posição (***positional only**)*
-- Sugestão de argumentos: ***saldo, valor, extrato.**
-- Sugestão de retorno: saldo e extrato.
-
-### Função Extrato
-
-- A função extrado deve receber por posição e nome ***positional only e keyword only**).*
-- Sugestão de argumento posicionais: ***saldo.***
-- Sugestão de argumento nomeados: ***extrato.***
-
-### Novas Funções
-
-- Precisamos criar duas novas funções:
-    - **Criar usuário.**
-    - **Criar conta corrente.**
-    - Observação: *Fica a critério do desenvolvedor adicionar mais funções, como por exemplo : listar contas.*
-    
-#
-## Requisitos funcionais e regras de negócio
-
-### Função criar usuário (cliente)
-
-- O programa deve armazenar o usuário em uma ***lista***.
-- Um usuário é composto por:
-    - **Nome.**
-    - **Data de nascimento.**
-    - **CPF:**
-        - Deve ser armazenado somente os números do CPF.
-        - Não podemos cadastrar 2 usuários com o mesmo CPF.
-    - **Endereço:**
-        - Endereço é uma ***string*** com o formato:
-            - **Logradouro.**
-            - **Número.**
-            - **Bairro.**
-            - **Cidade/Sigla Estado.**
-
-### Função criar conta corrente
-
-- O programa deve armazenar em uma ***lista.***
-- Uma conta corrente será composta por:
-    - **Agência**.
-    - Número da conta:
-        - Número da agência é fixo: 0001.
-    - **Usuário da conta**
-        - Usuário pode ter mais de uma conta.
-        
-
-## Dica
-
-- Para vincular um usuário a uma conta, filtre a lista de usuários buscando o número do CPF informado para cada usuário da lista.
+- Quantos pedidos foram feitos por cada cliente?
+- Algum vendedor também é fornecedor?
+- Relação de produtos fornecedores e estoques;
+- Relação de nomes dos fornecedores e nomes dos produtos;
