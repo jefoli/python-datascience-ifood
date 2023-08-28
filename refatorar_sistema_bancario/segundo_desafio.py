@@ -62,11 +62,7 @@ while True:
         saque(valor_saq)
 
     elif opcao == "e":
-        if extrato == "":
-            print("Não foram realizadas movimentações. ")
-        else:
-            print(f"Extrato consolidado:\n\n{extrato}")
-            print(f"Saldo total R$: {saldo:.2f}")
+            print("Não foram realizadas movimentações. ") if extrato == "" else print(f"Extrato consolidado:\n\n{extrato}"), print(f"Saldo total R$: {saldo:.2f}")
     elif opcao == "q":
         print("O banco BTG agradece a sua parceria!\nVolte sempre!")
         break
