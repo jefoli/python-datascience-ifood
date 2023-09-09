@@ -5,7 +5,9 @@ limite = 500
 numero_saque = 0
 extrato = ""
 
-# func deposito - v.01.
+import datetime
+current_date = datetime.datetime.now().isoformat(sep=" ", timespec="seconds")
+
 def deposito(valor_dep):
     global extrato, saldo
     if valor_dep <= 0:
@@ -14,28 +16,25 @@ def deposito(valor_dep):
         saldo += saldo+ valor_dep
         print("Depósito realizado com sucesso!\n")
         print(saldo)
-        extrato += f"00/07/23: R$ + {valor_dep:.2f}\n"
+        extrato += f"{current_date} R$ + {valor_dep:.2f}\n"
     return saldo
 
-# func saque - v.01.
 def saque(numero_saque):
     global extrato, saldo
     if numero_saque > 2:
-        print(f"\nLimite de operações excedidas para este tipo de conta!")
-        print(f"Quantidades de saques disponíveis para essa conta: {LIMITE_SAQUES} (três).")
+        print(f"\nLimite de operações excedidas para este tipo de conta!\nQuantidade de saques disponíveis para essa conta: {LIMITE_SAQUES} (três).")
         print(MSG_ADVICE)
     elif valor_saq <= 0:
         print("Valor inválido!")
     elif valor_saq > limite:
-        print(f"\nO valor informado excede o o limite disponível para essa conta!")
-        print(f"Limite de valor por saque R$: {limite:.2f}!")
+        print(f"\nO valor informado excede o o limite disponível para essa conta.\nLimite de valor por saque R$: {limite:.2f}!")
         print(MSG_ADVICE)
     elif valor_saq > saldo:
         print("Você não possui saldo suficiente para esta operação!\n")
     else:
         saldo = saldo - valor_saq
         numero_saque += 1
-        extrato += f"00/07/23: R$ -{valor_saq:.2f}\n"
+        extrato += f"{current_date} R$ -{valor_saq:.2f}\n"
         print(f"Operação realizada com sucesso!\n")
     return numero_saque
 
@@ -45,6 +44,7 @@ def extratos():
     return
 
 print("Bem-vindo ao BTG Pactual!\n")
+
 menu = """Escolha uma das opções abaixo:\n[d] Depositar\n[s] Sacar\n[e] Extrato\n[q] Sair\n=> """
 
 while True:
