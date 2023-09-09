@@ -1,4 +1,3 @@
-
 LIMITE_SAQUES = 3
 MSG_ADVICE = f"Consulte seu gerente para mais informações.\n"
 saldo = 0
@@ -12,10 +11,10 @@ def deposito(valor_dep):
     if valor_dep <= 0:
         print("Valor inválido. Tente novamente!\n")
     else:
-        extrato += f"00/07/23: R$ +{valor_dep:.2f}\n"
-        saldo += valor_dep
+        saldo += saldo+ valor_dep
         print("Depósito realizado com sucesso!\n")
         print(saldo)
+        extrato += f"00/07/23: R$ + {valor_dep:.2f}\n"
     return saldo
 
 # func saque - v.01.
@@ -41,28 +40,23 @@ def saque(numero_saque):
     return numero_saque
 
 #fun extrato
-def extrato():
+def extratos():
+    print("Não foram realizadas movimentações. ") if extrato == "" else print(f"Extrato consolidado:\n\n{extrato}"), print(f"Saldo total R$: {saldo:.2f}")
     return
-
-
 
 print("Bem-vindo ao BTG Pactual!\n")
 menu = """Escolha uma das opções abaixo:\n[d] Depositar\n[s] Sacar\n[e] Extrato\n[q] Sair\n=> """
 
 while True:
-
     opcao = input(menu)
     if opcao == "d":
-        
         valor_dep = int(input("Informe o valor que deseja depositar R$: "))
         deposito(valor_dep)
-        
     elif opcao == "s":
         valor_saq = int(input("Informe o valor que deseja sacar R$: "))
         saque(valor_saq)
-
     elif opcao == "e":
-            print("Não foram realizadas movimentações. ") if extrato == "" else print(f"Extrato consolidado:\n\n{extrato}"), print(f"Saldo total R$: {saldo:.2f}")
+        extratos()    
     elif opcao == "q":
         print("O banco BTG agradece a sua parceria!\nVolte sempre!")
         break

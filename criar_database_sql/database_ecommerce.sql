@@ -17,7 +17,6 @@ CREATE TABLE Clients(
 CREATE TABLE clients auto_incremente=1;
 
 --desc clients;
-
 -- criar tabela produto
 -- size = dimensão do produto
 CREATE TABLE product(
@@ -28,7 +27,6 @@ CREATE TABLE product(
     avaliação FLOAT DEFAULT 0, # se não colocar nada o valor vai ser NULL
     size VARCHAR(10)
 );
-
 
 -- Desafio - terminar de implementar a tabela e criar conexão com as tabelas relacionadas
 -- Refletir sobre as modificações relacionadas no diagrama
@@ -41,7 +39,6 @@ CREATE TABLE payments(
     PRIMARY KEY (idCliente, id_playment)
 );
 
-
 -- criar tabela pedido
 CREATE TABLE orders(
 	idOrder INT auto_increment PRIMARY KEY,
@@ -49,12 +46,11 @@ CREATE TABLE orders(
     orderStatus enum('Cancelado', 'Confirmado', 'Em Processamento') DEFAULT 'Em processamento',
     orderDescription VARCHAR(225),
     sendValue FLOAT DEFAULT 10,
-    paymentCash boolean DEFAULT false,
-    CONSTRAINT fk_orders_client FOREIGN KEY (idOrderCliente) REFERENCES clients(idClient)
-		on update cascade
+    paymentCash BOOLEAN DEFAULT false,
+    CONSTRAINT fk_orders_client FOREIGN KEY (idOrderCliente) REFERENCES clients(idClient) ON UPDATE cascade
 );
 
-desc orders;
+-- DESC orders;
 
 -- criar tabela estoque
 CREATE TABLE productStorage(
@@ -69,7 +65,7 @@ CREATE TABLE supplier(
     SocialName VARCHAR(225) NOT NULL,
     CNPJ CHAR(15) NOT NULL,
     contact VARCHAR(11) NOT NULL,
-    CONSTRAINT unique_supplier unique (CNPJ)
+    CONSTRAINT unique_supplier UNIQUE (CNPJ)
 );
 
 CREATE TABLE seller(
@@ -80,8 +76,8 @@ CREATE TABLE seller(
     CPF CHAR(9),
     location VARCHAR(255),
     contact VARCHAR(11) NOT NULL,
-    CONSTRAINT unique_cnpj_supplier unique (CNPJ),
-    CONSTRAINT unique_cpf_supplier unique (CPF)
+    CONSTRAINT unique_cnpj_supplier UNIQUE (CNPJ),
+    CONSTRAINT unique_cpf_supplier UNIQUE (CPF)
 );
 
 CREATE TABLE productSeller(
@@ -93,7 +89,7 @@ CREATE TABLE productSeller(
     CONSTRAINT fk_product_product FOREIGN KEY (idProduct) REFERENCES product (idProduct) #Tabela product
 );
 
-DESC productSeller;
+-- DESC productSeller;
 
 CREATE TABLE productOrder(
 	idPOproduct INT, #vai herdar valores de uma FK
