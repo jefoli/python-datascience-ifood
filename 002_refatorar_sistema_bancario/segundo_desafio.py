@@ -1,7 +1,8 @@
 import datetime
 
 CURRENT_DATE = datetime.datetime.now().isoformat(sep=" ", timespec="seconds")
-MENU = """Escolha uma das opções abaixo:\n[d] Depositar\n[s] Sacar\n[e] Extrato\n[q] Sair\n=> """
+CLIENTE_MENU = """Faça o seu cadastro/login:\n[1] Novo cliente\n[] Cliente Existente\n=> """
+MENU = """Escolha uma das opções abaixo:\n[c] Cadastrar Cliente\n[d] Depositar\n[s] Sacar\n[e] Extrato\n[q] Sair\n=> """
 LIMITE_SAQUES = 3
 MSG_ADVICE = f"Consulte seu gerente para mais informações.\n"
 
@@ -50,10 +51,31 @@ def extratos(extratos):
         print(f"Extrato consolidado:\n\n{extratos}\nSaldo total R$: {saldo:.2f}")
     return
 
+clientes = []
+def cadastrar_clientes():
+    global clientes
+    nome = input("Digite seu nome: ")
+    sobrenome = input ("Digite seu sobrenome: ")
+    cpf = input ("Digite seu cpf: ")
+    clientes.append([nome, sobrenome, cpf])
+    return clientes
+
+cadastro__conta_clientes = []
+def conta_cliente():
+    global cadastro__conta_clientes
+    AGENCIA = "Agência: 0001"
+    conta = "Conta:  0001"
+    cadastro__conta_clientes += AGENCIA, conta, cadastrar_clientes()
+    return cadastro__conta_clientes
+
+
 print("Bem-vindo ao BTG Pactual!\n")
 while True:
     opcao = input(MENU)
     match opcao:
+        case "c":
+            cont_client = conta_cliente()
+            print(cont_client)
         case "d":
             valor_dep = int(input(f"Informe o valor que deseja depositar R$: "))
             deposito(valor_dep)
