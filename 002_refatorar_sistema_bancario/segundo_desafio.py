@@ -73,18 +73,18 @@ print("Bem-vindo ao BTG Pactual!\n")
 while True:
     opcao = input(MENU)
     match opcao:
-        case "c":
+        case "c" | "C":
             cont_client = conta_cliente()
             print(cont_client)
-        case "d":
+        case "d" | "D":
             valor_dep = int(input(f"Informe o valor que deseja depositar R$: "))
             deposito(valor_dep)
-        case "s":
+        case "s" | "S":
             valor_saq = int(input(f"Informe o valor que deseja sacar R$: "))
             saque(valor_saq)
-        case "e":
+        case "e" | "E":
             extratos(extrato)
-        case "q":
+        case "q" | "Q":
             print(f"O banco BTG agradece a sua parceria!\nVolte sempre!")
             break
         case other:
