@@ -12,15 +12,15 @@ numero_saque = 0
 extrato = ""
 
 def deposito(valor_dep):
-    global extrato, saldo
+    global extrato
+    val_saldo = saldo
     if valor_dep <= 0:
         print("Valor inválido. Tente novamente!\n")
     else:
-        saldo += saldo+ valor_dep
+        val_saldo += valor_dep
         print("Depósito realizado com sucesso!\n")
-        print(saldo)
         extrato += f"{CURRENT_DATE} R$ + {valor_dep:.2f}\n"
-    return saldo
+    return val_saldo
 
 def saque(valor_saq):
     global saldo, extrato, numero_saque
@@ -51,34 +51,31 @@ def extratos(extratos):
         print(f"Extrato consolidado:\n\n{extratos}\nSaldo total R$: {saldo:.2f}")
     return
 
-clientes = []
-def cadastrar_clientes():
-    global clientes
+
+def cadastrar_clientes(cli):
+    AGENCIA = "Agência: 0001"
+    conta = "Conta:  0001"
+    cli = clientes
     nome = input("Digite seu nome: ")
     sobrenome = input ("Digite seu sobrenome: ")
     cpf = input ("Digite seu cpf: ")
-    clientes.append([nome, sobrenome, cpf])
-    return clientes
-
-cadastro__conta_clientes = []
-def conta_cliente():
-    global cadastro__conta_clientes
-    AGENCIA = "Agência: 0001"
-    conta = "Conta:  0001"
-    cadastro__conta_clientes += AGENCIA, conta, cadastrar_clientes()
-    return cadastro__conta_clientes
-
+    cli.append([AGENCIA,conta, nome, sobrenome, cpf])
+    return cli
 
 print("Bem-vindo ao BTG Pactual!\n")
 while True:
     opcao = input(MENU)
     match opcao:
         case "c" | "C":
-            cont_client = conta_cliente()
-            print(cont_client)
+            clientes = []
+            cont_client = cadastrar_clientes(clientes)
+            for cl in clientes:
+                print(cl, clientes)
+            
         case "d" | "D":
             valor_dep = int(input(f"Informe o valor que deseja depositar R$: "))
-            deposito(valor_dep)
+            recebe_saldo = deposito(valor_dep)
+            saldo = recebe_saldo
         case "s" | "S":
             valor_saq = int(input(f"Informe o valor que deseja sacar R$: "))
             saque(valor_saq)
