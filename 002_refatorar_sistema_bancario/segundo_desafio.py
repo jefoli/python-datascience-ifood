@@ -7,10 +7,11 @@ LIMITE_SAQUES = 3
 MSG_ADVICE = f"Consulte seu gerente para mais informações.\n"
 
 saldo = 0
-limite = 500
 numero_saque = 0
 extrato = ""
 
+
+# func deposito
 def deposito(valor_dep):
     global extrato
     val_saldo = saldo
@@ -22,8 +23,10 @@ def deposito(valor_dep):
         extrato += f"{CURRENT_DATE} R$ + {valor_dep:.2f}\n"
     return val_saldo
 
+# func saque
 def saque(valor_saq):
     global saldo, extrato, numero_saque
+    limite = 500
     if valor_saq <= 0:
         print("Valor inválido!")
         return
@@ -44,6 +47,7 @@ def saque(valor_saq):
         print(f"Operação realizada com sucesso!\n")
     return
 
+# func extrato
 def extratos(extratos):
     if extratos == "":
         print("Não foram realizadas movimentações. ")
@@ -51,7 +55,7 @@ def extratos(extratos):
         print(f"Extrato consolidado:\n\n{extratos}\nSaldo total R$: {saldo:.2f}")
     return
 
-
+#func cadastrar_cliente
 def cadastrar_clientes(cli):
     AGENCIA = "Agência: 0001"
     conta = "Conta:  0001"
@@ -71,7 +75,7 @@ while True:
             cont_client = cadastrar_clientes(clientes)
             for cl in clientes:
                 print(cl, clientes)
-            
+ 
         case "d" | "D":
             valor_dep = int(input(f"Informe o valor que deseja depositar R$: "))
             recebe_saldo = deposito(valor_dep)

@@ -9,8 +9,8 @@
 - Exercitar o que foi lecionado durante o curso.
 - Separar as funções existentes de saque, depósito e extrato em funções.
 - Criar duas novas funções:
-    - cadastrar usuário (cliente).
-    - Cadastrar conta bancária.
+- cadastrar usuário (cliente).
+- Cadastrar conta bancária.
     
 
 ## Desafio
