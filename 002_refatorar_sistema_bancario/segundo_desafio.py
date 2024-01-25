@@ -13,12 +13,15 @@ extrato = []
 # func deposito
 def deposito(valor_dep):
     val_saldo = saldo
+    
     if valor_dep <= 0:
         print("Valor inválido. Tente novamente!\n")
-    else:
-        val_saldo += valor_dep
-        print("Depósito realizado com sucesso!\n")
-        extrato.append(valor_dep)
+    
+    val_saldo += valor_dep
+
+    print("Depósito realizado com sucesso!\n")
+    extrato.append(valor_dep)
+
     return val_saldo
 
 # func saque
