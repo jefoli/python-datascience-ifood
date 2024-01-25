@@ -41,16 +41,17 @@ def saque(valor_saq):
     else:
         saldo = saldo - valor_saq
         numero_saque += 1
-        extrato.append(valor_saq)
+        extrato.append(-valor_saq)
         print(f"Operação realizada com sucesso!\n")
     return
 
 # func extrato
 def extratos(extratos):
-    if extratos == "":
-        print("Não foram realizadas movimentações. ")
-    else:
-        print(f"Extrato consolidado:\n\n{extratos}\nSaldo total R$: {saldo:.2f}")
+    print('Extrato consolidado:')
+    for valor in extratos:
+        print(f'Operação: R$: {valor:.2f}')
+    print(f"Saldo total R$: {saldo:.2f}\n")
+    
     return
 
 #func cadastrar_cliente
