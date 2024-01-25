@@ -8,24 +8,22 @@ MSG_ADVICE = f"Consulte seu gerente para mais informações.\n"
 
 saldo = 0
 numero_saque = 0
-extrato = ""
-
+extrato = []
 
 # func deposito
 def deposito(valor_dep):
-    global extrato
     val_saldo = saldo
     if valor_dep <= 0:
         print("Valor inválido. Tente novamente!\n")
     else:
         val_saldo += valor_dep
         print("Depósito realizado com sucesso!\n")
-        extrato += f"{CURRENT_DATE} R$ + {valor_dep:.2f}\n"
+        extrato.append(valor_dep)
     return val_saldo
 
 # func saque
 def saque(valor_saq):
-    global saldo, extrato, numero_saque
+    global saldo, numero_saque
     limite = 500
     if valor_saq <= 0:
         print("Valor inválido!")
@@ -43,7 +41,7 @@ def saque(valor_saq):
     else:
         saldo = saldo - valor_saq
         numero_saque += 1
-        extrato += f"{CURRENT_DATE} R$ -{valor_saq:.2f}\n"
+        extrato.append(valor_saq)
         print(f"Operação realizada com sucesso!\n")
     return
 
@@ -66,6 +64,11 @@ def cadastrar_clientes(cli):
     cli.append([AGENCIA,conta, nome, sobrenome, cpf])
     return cli
 
+def criar_conta():
+    AGENCIA = "Agência: 0001"
+    conta = "Conta:  0001"
+
+
 print("Bem-vindo ao BTG Pactual!\n")
 while True:
     opcao = input(MENU)
@@ -75,7 +78,6 @@ while True:
             cont_client = cadastrar_clientes(clientes)
             for cl in clientes:
                 print(cl, clientes)
- 
         case "d" | "D":
             valor_dep = int(input(f"Informe o valor que deseja depositar R$: "))
             recebe_saldo = deposito(valor_dep)

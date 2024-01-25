@@ -32,7 +32,7 @@
 
 ### Função Saque
 
-- A função saque deverá recevber os argumentos apenas por nome (***keyword only***).
+- A função saque deverá receber os argumentos apenas por nome (***keyword only***).
 - **Sugestão de argumentos**: *saldo (saldo=saldo), valor(valor=valor), extrato, limite, numero_saques, limite_saques.*
 - Sugestão de retorno: **saldo e extrato.**
 
