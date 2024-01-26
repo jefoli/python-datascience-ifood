@@ -13,7 +13,7 @@ extrato = []
 # func deposito
 def deposito(valor_dep):
     val_saldo = saldo
-    
+
     if valor_dep <= 0:
         print("Valor inválido. Tente novamente!\n")
     
@@ -25,36 +25,36 @@ def deposito(valor_dep):
     return val_saldo
 
 # func saque
-def saque(valor_saq):
-    global saldo, numero_saque
+def saque(valor_saque):
+    global numero_saque
+    valor_saldo = saldo
     limite = 500
-    if valor_saq <= 0:
+    if valor_saque <= 0:
         print("Valor inválido!")
         return
-    elif valor_saq > limite:
+    elif valor_saque > limite:
         print(f"\nO valor informado excede o o limite disponível para essa conta.\nLimite de valor por saque R$: {limite:.2f}!")
         print(MSG_ADVICE)
         return
-    elif valor_saq > saldo:
+    elif valor_saque > valor_saldo:
         print("Você não possui saldo suficiente para esta operação!\n")
     elif numero_saque >= 3:
         print(f"\nLimite de operações excedidas para este tipo de conta!\nQuantidade de saques disponíveis para essa conta: {LIMITE_SAQUES} (três).")
         print(MSG_ADVICE)
         return
     else:
-        saldo = saldo - valor_saq
         numero_saque += 1
-        extrato.append(-valor_saq)
+        extrato.append(-valor_saque)
         print(f"Operação realizada com sucesso!\n")
-    return
+        valor_saldo -= valor_saque
+    return valor_saldo
 
 # func extrato
-def extratos(extratos):
+def extratos(extrato):
     print('Extrato consolidado:')
-    for valor in extratos:
+    for valor in extrato:
         print(f'Operação: R$: {valor:.2f}')
     print(f"Saldo total R$: {saldo:.2f}\n")
-    
     return
 
 #func cadastrar_cliente
@@ -88,7 +88,8 @@ while True:
             saldo = recebe_saldo
         case "s" | "S":
             valor_saq = int(input(f"Informe o valor que deseja sacar R$: "))
-            saque(valor_saq)
+            sacar = saque(valor_saq)
+            saldo = sacar
         case "e" | "E":
             extratos(extrato)
         case "q" | "Q":
