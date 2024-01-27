@@ -1,17 +1,15 @@
 import datetime
-import os
 
 CURRENT_DATE = datetime.datetime.now().isoformat(sep=" ", timespec="seconds")
 CLIENTE_MENU = """Faça o seu cadastro/login:\n[1] Novo cliente\n[] Cliente Existente\n=> """
 MENU = """Escolha uma das opções abaixo:\n[c] Cadastrar Cliente\n[d] Depositar\n[s] Sacar\n[e] Extrato\n[q] Sair\n=> """
 LIMITE_SAQUES = 3
-MSG_ADVICE = f"Consulte seu gerente para mais informações.\n"
+MSG_ADVICE = f"Consulte seu gerente para mais informações."
 
-saldo = 0
-numero_saque = 0
-extrato = []
 clientes = []
-
+extrato = []
+quantidade_saques = 0
+saldo = 0
 
 def registrar_endereco():
     rua = input('Informe a rua: ')
@@ -27,12 +25,16 @@ def cadastrar_clientes():
     sobrenome = input("Digite seu sobrenome: ")
     cpf = input("Digite seu CPF: ")
     endereco = registrar_endereco()
-    clientes.append({'nome':nome, 'sobrenome':sobrenome, 'CPF':cpf, **endereco})
+    criar_conta_corrente = criar_conta()
+    clientes.append({'nome':nome, 'sobrenome':sobrenome, 'CPF':cpf, **endereco, 'conta bancária' : {**criar_conta_corrente}})
     return True
 
 def criar_conta():
-    AGENCIA = "Agência: 0001"
-    conta = "Conta:  0001"
+    AGENCIA = '0001'
+    conta = '0001'
+    conta_corrente = {'Agência':AGENCIA, 'Conta corrente:': conta}
+    return conta_corrente
+
 
 # func deposito
 def deposito(valor_deposito):
@@ -46,30 +48,44 @@ def deposito(valor_deposito):
     extrato.append(valor_digitado)
     return val_saldo
 
-# func saque
+def checar_limite_saque(qtd_saque):
+    numeros_saque = qtd_saque
+    
+    if numeros_saque >= LIMITE_SAQUES:
+        print(f'\nLimite de operações excedidas para este tipo de conta!\n'
+            f'Quantidade de saques disponíveis para essa conta: {LIMITE_SAQUES} (três).')
+        print(MSG_ADVICE)
+        return False
+    return True
+
 def saque(valor):
-    global numero_saque
     valor_saldo = saldo
     limite = 500
+    global quantidade_saques
+
+    checar_qtd_saque = checar_limite_saque(quantidade_saques)
+
+    if checar_qtd_saque == False:
+        return valor_saldo
+
     if valor <= 0:
         print("Valor inválido!")
-        return
-    elif valor > limite:
+        return valor_saldo
+    
+    if valor > valor_saldo:
+        print("Você não possui saldo suficiente para esta operação!\n")
+        return valor_saldo
+        
+    if valor > limite:
         print(f"\nO valor informado excede o o limite disponível para essa conta.\nLimite de valor por saque R$: {limite:.2f}!")
         print(MSG_ADVICE)
-        return
-    elif valor > valor_saldo:
-        print("Você não possui saldo suficiente para esta operação!\n")
-    elif numero_saque >= 3:
-        print(f"\nLimite de operações excedidas para este tipo de conta!\nQuantidade de saques disponíveis para essa conta: {LIMITE_SAQUES} (três).")
-        print(MSG_ADVICE)
-        return
-    else:
-        numero_saque += 1
-        extrato.append(valor_saque)
-        valor_saldo -= valor
-        print(f"Operação realizada com sucesso!\n")
+        return valor_saldo
+    
+    quantidade_saques += 1
+    valor_saldo -= valor
+    extrato.append(valor_saque)
 
+    print(f"Operação realizada com sucesso!\n")
     return valor_saldo
 
 # func extrato
@@ -77,18 +93,16 @@ def extratos(extrato):
     print('Extrato consolidado:')
     for valor in extrato:
         print('Operação: R$:', valor)
-    print(f"Saldo total R$: {saldo:.2f}\n")
+    print('Saldo total R$:', saldo)
     return True
 
 def checar_entrada_valores(valor):
     entrada_valor = valor
-    analisar_entrada = entrada_valor.isdigit()
+    analisar_entrada = entrada_valor.isdigit() 
     
-    if analisar_entrada:
-        entrada_valor = int(entrada_valor)
-        return entrada_valor
-    
-    return False
+    if not analisar_entrada:
+        return False
+    return entrada_valor
 
 print("Bem-vindo ao BTG Pactual!\n")
 while True:
@@ -102,24 +116,22 @@ while True:
             valor_para_deposito = input(f"Informe o valor que deseja depositar R$: ")
             checar_valor_deposito = checar_entrada_valores(valor_para_deposito)
 
-            if checar_valor_deposito != False:
-                valor_entrada = deposito(checar_valor_deposito)
+            if checar_valor_deposito:
+                valor_entrada = deposito(int(valor_para_deposito))
                 saldo = valor_entrada
             else:
                 print('Digite somente números!')
             print()
-
         case "s" | "S":
             valor_saque = input(f"Informe o valor que deseja sacar R$: ")
             checar_valor_saque = checar_entrada_valores(valor_saque)
 
-            if checar_valor_saque != False:
-                valor_saida = saque(checar_valor_saque)
+            if checar_valor_saque:
+                valor_saida = saque(int(valor_saque))
                 saldo = valor_saida
             else:
                 print('Digite somente números!')
             print()
-
         case "e" | "E":
             extratos(extrato)
         case "q" | "Q":
