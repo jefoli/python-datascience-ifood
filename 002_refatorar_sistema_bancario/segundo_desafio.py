@@ -9,19 +9,37 @@ MSG_ADVICE = f"Consulte seu gerente para mais informações.\n"
 saldo = 0
 numero_saque = 0
 extrato = []
+clientes = []
+
+def registrar_endereco():
+    rua = input('Informe a rua: ')
+    numero_residencia = input('Informe o número da residência: ')
+    bairro = input('Informe o bairro: ')
+    cidade = input('Informe a cidade: ')
+    cep = input('Informe o CEP: ')
+    endereco_completo = {'Rua': rua, 'Número:': numero_residencia, 'Bairro:': bairro, 'Cidade':cidade, 'CEP:':cep}
+    return endereco_completo
+
+def cadastrar_clientes():
+    nome = input("Digite seu nome: ")
+    sobrenome = input("Digite seu sobrenome: ")
+    cpf = input("Digite seu CPF: ")
+    endereco = registrar_endereco()
+    clientes.append({'nome':nome, 'sobrenome':sobrenome, 'CPF':cpf, **endereco})
+    return True
+
+def criar_conta():
+    AGENCIA = "Agência: 0001"
+    conta = "Conta:  0001"
 
 # func deposito
-def deposito(valor_dep):
+def deposito(valor_deposito):
     val_saldo = saldo
-
-    if valor_dep <= 0:
+    if valor_deposito <= 0:
         print("Valor inválido. Tente novamente!\n")
-    
-    val_saldo += valor_dep
-
+    val_saldo += valor_deposito
     print("Depósito realizado com sucesso!\n")
-    extrato.append(valor_dep)
-
+    extrato.append(valor_deposito)
     return val_saldo
 
 # func saque
@@ -55,22 +73,7 @@ def extratos(extrato):
     for valor in extrato:
         print(f'Operação: R$: {valor:.2f}')
     print(f"Saldo total R$: {saldo:.2f}\n")
-    return
-
-#func cadastrar_cliente
-def cadastrar_clientes(cli):
-    AGENCIA = "Agência: 0001"
-    conta = "Conta:  0001"
-    cli = clientes
-    nome = input("Digite seu nome: ")
-    sobrenome = input ("Digite seu sobrenome: ")
-    cpf = input ("Digite seu cpf: ")
-    cli.append([AGENCIA,conta, nome, sobrenome, cpf])
-    return cli
-
-def criar_conta():
-    AGENCIA = "Agência: 0001"
-    conta = "Conta:  0001"
+    return True
 
 
 print("Bem-vindo ao BTG Pactual!\n")
@@ -78,10 +81,9 @@ while True:
     opcao = input(MENU)
     match opcao:
         case "c" | "C":
-            clientes = []
-            cont_client = cadastrar_clientes(clientes)
-            for cl in clientes:
-                print(cl, clientes)
+            nova_conta_bancaria = cadastrar_clientes()
+            for cliente in clientes:
+                print(cliente)
         case "d" | "D":
             valor_dep = int(input(f"Informe o valor que deseja depositar R$: "))
             recebe_saldo = deposito(valor_dep)
