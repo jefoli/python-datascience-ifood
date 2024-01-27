@@ -11,14 +11,6 @@ extrato = []
 quantidade_saques = 0
 saldo = 0
 
-def registrar_endereco():
-    rua = input('Informe a rua: ')
-    numero_residencia = input('Informe o número da residência: ')
-    bairro = input('Informe o bairro: ')
-    cidade = input('Informe a cidade: ')
-    cep = input('Informe o CEP: ')
-    endereco_completo = {'Rua': rua, 'Número:': numero_residencia, 'Bairro:': bairro, 'Cidade':cidade, 'CEP:':cep}
-    return endereco_completo
 
 def cadastrar_clientes():
     nome = input("Digite seu nome: ")
@@ -28,6 +20,15 @@ def cadastrar_clientes():
     criar_conta_corrente = criar_conta()
     clientes.append({'nome':nome, 'sobrenome':sobrenome, 'CPF':cpf, **endereco, 'conta bancária' : {**criar_conta_corrente}})
     return True
+
+def registrar_endereco():
+    rua = input('Informe a rua: ')
+    numero_residencia = input('Informe o número da residência: ')
+    bairro = input('Informe o bairro: ')
+    cidade = input('Informe a cidade: ')
+    cep = input('Informe o CEP: ')
+    endereco_completo = {'Rua': rua, 'Número:': numero_residencia, 'Bairro:': bairro, 'Cidade':cidade, 'CEP:':cep}
+    return endereco_completo
 
 def criar_conta():
     AGENCIA = '0001'
@@ -40,13 +41,13 @@ def criar_conta():
 def deposito(valor_deposito):
     valor_digitado = valor_deposito
 
-    val_saldo = saldo
     if valor_digitado <= 0:
         print("Valor inválido. Tente novamente!\n")
-    val_saldo += valor_digitado
-    print("Depósito realizado com sucesso!\n")
+
     extrato.append(valor_digitado)
-    return val_saldo
+    print("Depósito realizado com sucesso!\n")
+
+    return valor_digitado
 
 def checar_limite_saque(qtd_saque):
     numeros_saque = qtd_saque
@@ -59,30 +60,33 @@ def checar_limite_saque(qtd_saque):
     return True
 
 def saque(valor):
-    valor_saldo = saldo
+    valor_saldo = valor
     limite = 500
+
     global quantidade_saques
 
     checar_qtd_saque = checar_limite_saque(quantidade_saques)
 
     if checar_qtd_saque == False:
+        valor_saldo = 0
         return valor_saldo
 
     if valor <= 0:
         print("Valor inválido!")
-        return valor_saldo
+        return 0
     
     if valor > valor_saldo:
         print("Você não possui saldo suficiente para esta operação!\n")
-        return valor_saldo
+        return 0
         
     if valor > limite:
         print(f"\nO valor informado excede o o limite disponível para essa conta.\nLimite de valor por saque R$: {limite:.2f}!")
         print(MSG_ADVICE)
+        valor_saldo = 0
         return valor_saldo
     
     quantidade_saques += 1
-    valor_saldo -= valor
+    
     extrato.append(valor_saque)
 
     print(f"Operação realizada com sucesso!\n")
@@ -118,7 +122,7 @@ while True:
 
             if checar_valor_deposito:
                 valor_entrada = deposito(int(valor_para_deposito))
-                saldo = valor_entrada
+                saldo += valor_entrada
             else:
                 print('Digite somente números!')
             print()
@@ -128,7 +132,7 @@ while True:
 
             if checar_valor_saque:
                 valor_saida = saque(int(valor_saque))
-                saldo = valor_saida
+                saldo -= valor_saida
             else:
                 print('Digite somente números!')
             print()
