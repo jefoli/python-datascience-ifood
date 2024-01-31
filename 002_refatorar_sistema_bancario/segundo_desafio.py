@@ -56,26 +56,18 @@ def checar_limite_saque(qtd_saque):
         print(f'\nLimite de operações excedidas para este tipo de conta!\n'
             f'Quantidade de saques disponíveis para essa conta: {LIMITE_SAQUES} (três).')
         print(MSG_ADVICE)
-        return False
-    return True
+        return True
+    return False
 
 def saque(valor):
     valor_saldo = valor
     limite = 500
 
-    global quantidade_saques
-
-    checar_qtd_saque = checar_limite_saque(quantidade_saques)
-
-    if checar_qtd_saque == False:
-        valor_saldo = 0
-        return valor_saldo
-
-    if valor <= 0:
+    if valor_saldo <= 0:
         print("Valor inválido!")
         return 0
     
-    if valor > valor_saldo:
+    if valor > saldo:
         print("Você não possui saldo suficiente para esta operação!\n")
         return 0
         
@@ -84,8 +76,6 @@ def saque(valor):
         print(MSG_ADVICE)
         valor_saldo = 0
         return valor_saldo
-    
-    quantidade_saques += 1
     
     extrato.append(valor_saque)
 
@@ -106,7 +96,9 @@ def checar_entrada_valores(valor):
     
     if not analisar_entrada:
         return False
+    
     return entrada_valor
+
 
 print("Bem-vindo ao BTG Pactual!\n")
 while True:
@@ -131,8 +123,13 @@ while True:
             checar_valor_saque = checar_entrada_valores(valor_saque)
 
             if checar_valor_saque:
-                valor_saida = saque(int(valor_saque))
-                saldo -= valor_saida
+                consulta_lim_saque = checar_limite_saque (quantidade_saques)
+
+                if not consulta_lim_saque:
+                    valor_saida = saque(int(valor_saque))
+                    saldo -= valor_saida
+                    quantidade_saques += 1
+
             else:
                 print('Digite somente números!')
             print()
