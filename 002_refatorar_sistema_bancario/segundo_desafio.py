@@ -1,4 +1,5 @@
 import datetime
+import re 
 
 CURRENT_DATE = datetime.datetime.now().isoformat(sep=" ", timespec="seconds")
 CLIENTE_MENU = """Faça o seu cadastro/login:\n[1] Novo cliente\n[] Cliente Existente\n=> """
@@ -15,7 +16,7 @@ saldo = 0
 def cadastrar_clientes():
     nome = input("Digite seu nome: ")
     sobrenome = input("Digite seu sobrenome: ")
-    cpf = input("Digite seu CPF: ")
+    cpf = checar_cpf()
     endereco = registrar_endereco()
     criar_conta_corrente = criar_conta()
     clientes.append({'nome':nome, 'sobrenome':sobrenome, 'CPF':cpf, **endereco, 'conta bancária' : {**criar_conta_corrente}})
@@ -36,6 +37,27 @@ def criar_conta():
     conta_corrente = {'Agência':AGENCIA, 'Conta corrente:': conta}
     return conta_corrente
 
+def checar_cpf():
+
+    while True:
+        cpf_cliente = input('Digite Seu CPF:')
+        tratar_cpf = re.sub(r'[^0-9]','', cpf_cliente)
+        
+        if not tratar_cpf.isnumeric():
+            print('Digite somente números!')
+            continue
+
+        checar_entrada = False if len(tratar_cpf) == 11 else True
+        checar_seq = tratar_cpf == tratar_cpf[0] * len(tratar_cpf)
+        
+        if checar_entrada or checar_seq:
+            print('Digite corretamente seu CPF!')
+            print('Tente novamente.')
+            continue
+        
+        print('CPF Validado!')
+        break
+    return tratar_cpf
 
 # func deposito
 def deposito(valor_deposito):
