@@ -12,7 +12,6 @@ extrato = []
 quantidade_saques = 0
 saldo = 0
 
-
 def cadastrar_clientes():
     nome = input("Digite seu nome: ")
     sobrenome = input("Digite seu sobrenome: ")
@@ -66,7 +65,6 @@ def deposito(valor_deposito):
     if valor_digitado <= 0:
         print("Valor inválido. Tente novamente!\n")
 
-    extrato.append(valor_digitado)
     print("Depósito realizado com sucesso!\n")
 
     return valor_digitado
@@ -87,20 +85,18 @@ def saque(valor):
 
     if valor_saldo <= 0:
         print("Valor inválido!")
-        return 0
+        return False
     
-    if valor > saldo:
+    if valor_saldo > saldo:
         print("Você não possui saldo suficiente para esta operação!\n")
-        return 0
+        return False
         
-    if valor > limite:
+    if valor_saldo > limite:
         print(f"\nO valor informado excede o o limite disponível para essa conta.\nLimite de valor por saque R$: {limite:.2f}!")
         print(MSG_ADVICE)
         valor_saldo = 0
         return valor_saldo
     
-    extrato.append(valor_saque)
-
     print(f"Operação realizada com sucesso!\n")
     return valor_saldo
 
@@ -135,7 +131,10 @@ while True:
             checar_valor_deposito = checar_entrada_valores(valor_para_deposito)
 
             if checar_valor_deposito:
-                valor_entrada = deposito(int(valor_para_deposito))
+                valor_int_deposito = int(valor_para_deposito)
+                valor_entrada = deposito(valor_int_deposito)
+                extrato.append(valor_int_deposito)
+
                 saldo += valor_entrada
             else:
                 print('Digite somente números!')
@@ -145,11 +144,13 @@ while True:
             checar_valor_saque = checar_entrada_valores(valor_saque)
 
             if checar_valor_saque:
-                consulta_lim_saque = checar_limite_saque (quantidade_saques)
+                consulta_lim_saque = checar_limite_saque(quantidade_saques)
 
                 if not consulta_lim_saque:
-                    valor_saida = saque(int(valor_saque))
+                    valor_int_saque = int(valor_saque)
+                    valor_saida = saque(valor_int_saque)
                     saldo -= valor_saida
+                    extrato.append(-valor_int_saque)
                     quantidade_saques += 1
 
             else:
