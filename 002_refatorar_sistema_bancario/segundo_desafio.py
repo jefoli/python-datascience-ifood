@@ -1,7 +1,7 @@
 import datetime
 import re 
 
-CURRENT_DATE = datetime.datetime.now().isoformat(sep=" ", timespec="seconds")
+CURRENT_DATE = datetime.datetime.now().isoformat(sep=" ", timespec="minutes")
 CLIENTE_MENU = """Faça o seu cadastro/login:\n[1] Novo cliente\n[] Cliente Existente\n=> """
 MENU = """Escolha uma das opções abaixo:\n[c] Cadastrar Cliente\n[d] Depositar\n[s] Sacar\n[e] Extrato\n[q] Sair\n=> """
 LIMITE_SAQUES = 3
@@ -94,8 +94,7 @@ def saque(valor):
     if valor_saldo > limite:
         print(f"\nO valor informado excede o o limite disponível para essa conta.\nLimite de valor por saque R$: {limite:.2f}!")
         print(MSG_ADVICE)
-        valor_saldo = 0
-        return valor_saldo
+        return False
     
     print(f"Operação realizada com sucesso!\n")
     return valor_saldo
@@ -104,9 +103,8 @@ def saque(valor):
 def extratos(extrato):
     print('Extrato consolidado:')
     for valor in extrato:
-        print('Operação: R$:', valor)
+        print('Operação:', valor)
     print('Saldo total R$:', saldo)
-    return True
 
 def checar_entrada_valores(valor):
     entrada_valor = valor
@@ -133,9 +131,11 @@ while True:
             if checar_valor_deposito:
                 valor_int_deposito = int(valor_para_deposito)
                 valor_entrada = deposito(valor_int_deposito)
-                extrato.append(valor_int_deposito)
 
+            if valor_entrada:
                 saldo += valor_entrada
+                extrato.append(f"{CURRENT_DATE} | R$: {valor_int_deposito}")
+
             else:
                 print('Digite somente números!')
             print()
@@ -149,9 +149,11 @@ while True:
                 if not consulta_lim_saque:
                     valor_int_saque = int(valor_saque)
                     valor_saida = saque(valor_int_saque)
-                    saldo -= valor_saida
-                    extrato.append(-valor_int_saque)
-                    quantidade_saques += 1
+
+                    if valor_saida:
+                        saldo -= valor_saida
+                        extrato.append(f"{CURRENT_DATE} | R$: {-valor_int_saque}")
+                        quantidade_saques += 1
 
             else:
                 print('Digite somente números!')
